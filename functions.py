@@ -3,7 +3,7 @@ from PyQt6.QtCore import Qt, QSize, QStandardPaths
 from PyQt6 import QtGui
 from PyQt6 import QtWidgets as widget
 
-import functools, json, re
+import functools, json, re, pathlib, sys
 
 FONT_FAMILY = "Lato"
 FONT_SIZE_BOX = 14
@@ -11,9 +11,8 @@ FONT_SIZE_BOX_DESCRIPTION = 13
 FONT_SIZE_INTERNAL = 12
 
 def read_file():
-    with open("config.json", "r", encoding='utf-8') as config_file:
+    with open(pathlib.WindowsPath("C:", "_config", "config.json"), "r", encoding='utf-8') as config_file:
         ctf_configs = json.load(config_file)
-        print(ctf_configs)
         return ctf_configs
     
 def reset_progress():
@@ -40,18 +39,27 @@ def display_hint(hint: str):
     msg_hint.exec()
     
 def generate_placeholder(answer: str):
-    return re.sub("[\w!]", "*", answer)
+    return re.sub(r"[\w!]", "*", answer)
         
 def populate_task_list(task_layout: QVBoxLayout, title: QLabel):
-    task_list = read_file()
+    try:
+        task_list = read_file()
     
-    title.setText(task_list['workshop'])
-    
-    # sort task list
-    task_list = sorted(task_list['tasks'], key=lambda x: x['task_id'])
-    
-    for task in task_list:
-        task_layout.addWidget(set_task(task))
+        title.setText(task_list['workshop'])
+        
+        # sort task list
+        task_list = sorted(task_list['tasks'], key=lambda x: x['task_id'])
+        
+        for task in task_list:
+            task_layout.addWidget(set_task(task))
+    except FileNotFoundError:
+        msg_no_config_file = widget.QMessageBox()
+        msg_no_config_file.setWindowTitle("Brak pliku!")
+        msg_no_config_file.setText("Nie znaleziono pliku konfiguracyjnego!")
+        msg_no_config_file.setInformativeText("Program się zakończy.")
+        msg_no_config_file.setIcon(widget.QMessageBox.Icon.Critical)
+        msg_no_config_file.exec()
+        sys.exit()
         
 def set_task(task: dict):
     '''
