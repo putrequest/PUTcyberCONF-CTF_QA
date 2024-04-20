@@ -1,12 +1,7 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QFrame
-from PyQt6.QtCore import Qt, QSize, QStandardPaths
-from PyQt6 import QtGui, uic
+from PyQt6.QtWidgets import QVBoxLayout
 from PyQt6 import QtWidgets as widget
-
-from functools import partial
-
 # local imports
-import gui, strings
+import gui, functions
 
 class MainWindow(widget.QMainWindow):
     
@@ -19,17 +14,23 @@ class MainWindow(widget.QMainWindow):
         
         self.UI_manager()
         self.show()
-    
-    def new_task_submit_hint():
-        # creating new task frame with description, answer and submit & hint buttons
-        print("hee")
-        
 
     def UI_manager(self):
+        # SET MENU BAR
+        self.ui.action_reset_progress.triggered.connect(functions.reset_progress)
+        
+        font = self.ui.title.font()
+        font.setBold(True)
+        font.setPointSize(18)
+        font.setFamily("Fira Code")
+        
         self.ui.title.setText("Warsztaty Forensics")
+        self.ui.title.setFont(font)
         
         self.task_layout = QVBoxLayout(self.ui.scroll_area_tasks_widget)
         
-        for i in range(30):
-            label = QLabel(f"Label {i}")
-            self.task_layout.addWidget(label)
+        functions.populate_task_list(self.task_layout)
+        
+        # for i in range(30):
+        #     label = QLabel(f"Label {i}")
+        #     self.task_layout.addWidget(label)
