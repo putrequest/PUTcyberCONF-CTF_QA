@@ -12,11 +12,11 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_CTF_QA(object):
     def setupUi(self, CTF_QA):
         CTF_QA.setObjectName("CTF_QA")
-        CTF_QA.resize(675, 668)
+        CTF_QA.resize(675, 675)
         self.centralwidget = QtWidgets.QWidget(parent=CTF_QA)
         self.centralwidget.setObjectName("centralwidget")
         self.scroll_area_tasks = QtWidgets.QScrollArea(parent=self.centralwidget)
-        self.scroll_area_tasks.setGeometry(QtCore.QRect(0, 50, 681, 571))
+        self.scroll_area_tasks.setGeometry(QtCore.QRect(0, 70, 681, 571))
         self.scroll_area_tasks.setWidgetResizable(True)
         self.scroll_area_tasks.setObjectName("scroll_area_tasks")
         self.scroll_area_tasks_widget = QtWidgets.QWidget()
@@ -24,7 +24,7 @@ class Ui_CTF_QA(object):
         self.scroll_area_tasks_widget.setObjectName("scroll_area_tasks_widget")
         self.scroll_area_tasks.setWidget(self.scroll_area_tasks_widget)
         self.title = QtWidgets.QLabel(parent=self.centralwidget)
-        self.title.setGeometry(QtCore.QRect(100, 10, 481, 41))
+        self.title.setGeometry(QtCore.QRect(100, 0, 481, 61))
         self.title.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.title.setObjectName("title")
         CTF_QA.setCentralWidget(self.centralwidget)
