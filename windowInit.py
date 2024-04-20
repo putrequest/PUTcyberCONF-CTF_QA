@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QVBoxLayout
+from PyQt6.QtWidgets import QVBoxLayout, QBoxLayout
 from PyQt6 import QtWidgets as widget
 # local imports
 import gui, functions
@@ -26,5 +26,5 @@ class MainWindow(widget.QMainWindow):
         self.ui.title.setFont(font)
         
         self.task_layout = QVBoxLayout(self.ui.scroll_area_tasks_widget)
-        
         functions.populate_task_list(self.task_layout, self.ui.title)
+        self.task_layout.addStretch()

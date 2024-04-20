@@ -128,21 +128,34 @@ def set_question(question: dict, font: QtGui.QFont):
     question_answer = QLineEdit()
     question_answer.setPlaceholderText(generate_placeholder(question['q_answer']))
     question_answer.setFont(font)
+    inner_layout_answer = QVBoxLayout()
+    inner_layout_answer.addWidget(question_answer)
         
     question_submit = QPushButton()
     question_submit.setText("Sprawdź")
     question_submit.clicked.connect(functools.partial(check_answer, question_submit, question_answer, question['q_answer']))
     question_submit.setFont(font)
+    inner_layout_submit = QVBoxLayout()
+    inner_layout_submit.addWidget(question_submit)
 
-    layout_question.addWidget(question_answer)
-    layout_question.addWidget(question_submit)
+    # layout_question.addWidget(question_answer)
+    # layout_question.addWidget(question_submit)
     
     if question['q_hint'] != None:
         question_hint = QPushButton()
         question_hint.setText("Podpowiedź")
         question_hint.clicked.connect(functools.partial(display_hint, question['q_hint']))
         question_hint.setFont(font)
-        layout_question.addWidget(question_hint)
+        inner_layout_hint = QVBoxLayout()
+        inner_layout_hint.addWidget(question_hint)
+        # layout_question.addWidget(question_hint)
+        
+        layout_question.addLayout(inner_layout_answer, 60)
+        layout_question.addLayout(inner_layout_submit, 20)
+        layout_question.addLayout(inner_layout_hint, 20)
+    else:
+        layout_question.addLayout(inner_layout_answer, 80)
+        layout_question.addLayout(inner_layout_submit, 20)
         
     if question['q_desc'] != None:
         layout_task_question = QVBoxLayout()
@@ -165,13 +178,17 @@ def set_question_step(question: dict, font: QtGui.QFont):
     step_desc.setWordWrap(True)
     step_desc.setTextFormat(Qt.TextFormat.MarkdownText)
     step_desc.setFont(font)
+    inner_layout_desc = QVBoxLayout()
+    inner_layout_desc.addWidget(step_desc)
     
     step_submit = QPushButton()
     step_submit.setText("Wykonaj")
     step_submit.setFont(font)
     step_submit.clicked.connect(functools.partial(check_step, step_submit))
+    inner_layout_submit = QVBoxLayout()
+    inner_layout_submit.addWidget(step_submit)
     
-    layout_step.addWidget(step_desc)
-    layout_step.addWidget(step_submit)
+    layout_step.addLayout(inner_layout_desc, 80)
+    layout_step.addLayout(inner_layout_submit, 20)
     
     return layout_step
