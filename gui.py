@@ -47,7 +47,7 @@ class Ui_CTF_QA(object):
 
     def retranslateUi(self, CTF_QA):
         _translate = QtCore.QCoreApplication.translate
-        CTF_QA.setWindowTitle(_translate("CTF_QA", "MainWindow"))
+        CTF_QA.setWindowTitle(_translate("CTF_QA", "PUTcyberCONF"))
         self.title.setText(_translate("CTF_QA", "TextLabel"))
         self.menuPlik.setTitle(_translate("CTF_QA", "Plik"))
         self.action_reset_progress.setText(_translate("CTF_QA", "Zresetuj postęp"))
