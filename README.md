@@ -67,3 +67,174 @@ Which then is utilized by the application.
     ]
 }
 ```
+
+### Examples
+
+Main scope should consists of:
+``` json
+{
+    "workshop": "workshop name",
+    "tasks": [
+        {
+            // task 1
+        },
+        {
+            // task 2
+        }
+    ]
+}
+```
+
+
+1. Full task list:
+
+![task_full_list](/README_assets/task_list_whole.png)
+
+There is a config:
+``` json
+{
+   "workshop": "Warsztaty Forensics",
+   "tasks": [
+      {
+         "task_id": 2,
+         "task_name": "Task 2",
+         "task_desc": null,
+         "questions": [
+            {
+               "q_id": 1,
+               "q_desc": "Just a thing to do...",
+               "q_answer": "Zażółć",
+               "q_hint": null
+            },
+            {
+               "q_id": 2,
+               "q_desc": "And here is one task to do without answer!",
+               "q_answer": null,
+               "q_hint": null
+            }
+         ]
+      },
+      {
+         "task_id": 4,
+         "task_name": "Task 3",
+         "task_desc": null,
+         "questions": [
+            {
+               "q_id": 1,
+               "q_desc": null,
+               "q_answer": "d1102305d817abafdd0981ed45aae236",
+               "q_hint": null
+            }
+         ]
+      },
+      {
+         "task_id": 5,
+         "task_name": "Task 4",
+         "task_desc": null,
+         "questions": [
+            {
+               "q_id": 1,
+               "q_desc": null,
+               "q_answer": "19243ba33b323eb935f0cd5d5b329426",
+               "q_hint": "Here is Johnny!"
+            }
+         ]
+      },
+      {
+         "task_id": 6,
+         "task_name": "Task 5",
+         "task_desc": null,
+         "questions": [
+            {
+               "q_id": 1,
+               "q_desc": "Poczekaj kiedyś pojedzie!",
+               "q_answer": "IC 2137",
+               "q_hint": "Pociąg linii międzymiastowych"
+            }
+         ]
+      }
+   ]
+}
+```
+
+2. Task with all options:
+
+![huge_task](/README_assets/task_full.png)
+
+There is a config:
+
+``` json
+{
+    "task_id": 1,
+    "task_name": "Task 1",
+    "task_desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed justo urna, volutpat ut dui id, feugiat varius mi. Nullam tincidunt diam eu risus commodo, non aliquam ligula pellentesque. Suspendisse potenti. Maecenas ut lobortis sem. Duis ut nisl vitae lorem pretium scelerisque lacinia eu dolor. Morbi sed congue diam. Aliquam a ex nisi.\n\nVivamus nulla diam, dapibus nec turpis fermentum, pellentesque fringilla eros. Donec consectetur vestibulum nisl, eget dictum nisi mollis id. Integer tincidunt, nisl quis sagittis porttitor, lorem dolor tempus purus, nec volutpat nisi risus et sem. Integer nec malesuada purus, ut condimentum sapien. Vivamus ac est at dolor varius. \n\n- One thing\n- **Bolded**\n- *Italic*\n\n1. List\n2. ddd\n",
+    "questions": [
+        {
+            "q_id": 1,
+            "q_desc": "Do that thing...",
+            "q_answer": "this thing",
+            "q_hint": "Do that!"
+        },
+        {
+            "q_id": 2,
+            "q_desc": "Do another thing!",
+            "q_answer": "I have this one!",
+            "q_hint": null
+        },
+        {
+            "q_id": 3,
+            "q_desc": "And here is one task to do without answer!",
+            "q_answer": null,
+            "q_hint": null
+        }
+    ]
+},
+```
+
+3. Task with one answer and a task step:
+
+![task_one_answer_task_step](/README_assets/task_answer_step.png)
+
+There is a config:
+``` json
+{
+    "task_id": 2,
+    "task_name": "Task 2",
+    "task_desc": null,
+    "questions": [
+        {
+            "q_id": 1,
+            "q_desc": "Just a thing to do...",
+            "q_answer": "Zażółć",
+            "q_hint": null
+        },
+        {
+            "q_id": 2,
+            "q_desc": "And here is one task to do without answer!",
+            "q_answer": null,
+            "q_hint": null
+        }
+    ]
+}
+```
+
+4. Task with only question:
+
+![task_only_question](/README_assets/task_question_no_desc.png)
+
+There is a config:
+``` json
+{
+    "task_id": 4,
+    "task_name": "Task 3",
+    "task_desc": null,
+    "questions": [
+        {
+            "q_id": 1,
+            "q_desc": null,
+            "q_answer": "d1102305d817abafdd0981ed45aae236",
+            "q_hint": null
+        }
+    ]
+}
+```
