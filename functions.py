@@ -11,9 +11,14 @@ FONT_SIZE_BOX_DESCRIPTION = 13
 FONT_SIZE_INTERNAL = 12
 
 def read_file():
-    with open(pathlib.WindowsPath("C:", "_config", "config.json"), "r", encoding='utf-8') as config_file:
-        ctf_configs = json.load(config_file)
-        return ctf_configs
+    if sys.platform == "linux":
+        with open(pathlib.Path("/usr/CTF_config", "config.json"), "r", encoding='utf-8') as config_file:
+            ctf_configs = json.load(config_file)
+            return ctf_configs
+    else:
+        with open(pathlib.WindowsPath("C:", "CTF_config", "config.json"), "r", encoding='utf-8') as config_file:
+            ctf_configs = json.load(config_file)
+            return ctf_configs
     
 def reset_progress():
     # go through each task and reset progress
