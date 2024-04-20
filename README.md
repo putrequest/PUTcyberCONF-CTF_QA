@@ -11,6 +11,10 @@ The program utilizes Python 3.11.2 and PyQT6. The required dependencies can be f
 
 1. Program can run by installing dependencies and executing `main.py` via Python.
 2. Program executable for Windows was generated and can be found under *Releases*.
+   1. Script for generating the executable: `pyinstaller main.py -D -w -n CTF-QA`
+      1. `-D` - create one-folder bundle
+      2. `-w` - windowed, noconsole file
+      3. `-n` - custom name of the app
 
 ## Layout editing
 
