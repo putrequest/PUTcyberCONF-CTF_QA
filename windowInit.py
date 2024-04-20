@@ -23,14 +23,8 @@ class MainWindow(widget.QMainWindow):
         font.setBold(True)
         font.setPointSize(18)
         font.setFamily("Fira Code")
-        
-        self.ui.title.setText("Warsztaty Forensics")
         self.ui.title.setFont(font)
         
         self.task_layout = QVBoxLayout(self.ui.scroll_area_tasks_widget)
         
-        functions.populate_task_list(self.task_layout)
-        
-        # for i in range(30):
-        #     label = QLabel(f"Label {i}")
-        #     self.task_layout.addWidget(label)
+        functions.populate_task_list(self.task_layout, self.ui.title)
