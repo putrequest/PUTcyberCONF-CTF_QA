@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QVBoxLayout, QBoxLayout
+from PyQt6.QtWidgets import QVBoxLayout
 from PyQt6 import QtWidgets as widget
 # local imports
 import gui, functions
