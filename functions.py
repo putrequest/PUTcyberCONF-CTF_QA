@@ -1,24 +1,31 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame, QLineEdit, QPushButton, QGroupBox, QTextBrowser
-from PyQt6.QtCore import Qt, QSize, QStandardPaths
+from PyQt6.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QFrame, QLineEdit, QPushButton, QGroupBox
+from PyQt6.QtCore import Qt
 from PyQt6 import QtGui
 from PyQt6 import QtWidgets as widget
 
-import functools, json, re, pathlib, sys
+import functools, json, re, sys, base64, codecs
 
 FONT_FAMILY = "Lato"
 FONT_SIZE_BOX = 14
 FONT_SIZE_BOX_DESCRIPTION = 13
 FONT_SIZE_INTERNAL = 12
 
+def decode_answer(answer: str):
+    if answer == None:
+        return None
+    str_decoded = codecs.decode(answer, 'rot_13')
+    base_decode = base64.decodebytes(str_decoded.encode('utf-8'))
+    return base_decode.decode('utf-8')
+
 def read_file():
-    if sys.platform == "linux":
-        with open(pathlib.Path("/usr/CTF_config", "config.json"), "r", encoding='utf-8') as config_file:
-            ctf_configs = json.load(config_file)
-            return ctf_configs
-    else:
-        with open(pathlib.WindowsPath("C:", "CTF_config", "config.json"), "r", encoding='utf-8') as config_file:
-            ctf_configs = json.load(config_file)
-            return ctf_configs
+    with open("config.json", "r", encoding='utf-8') as config_file:
+        ctf_configs = json.load(config_file)
+        
+        for task in ctf_configs['tasks']:
+            for question in task['questions']:
+                question['q_answer'] = decode_answer(question['q_answer'])
+        
+        return ctf_configs
     
 def reset_progress():
     # go through each task and reset progress

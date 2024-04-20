@@ -16,9 +16,7 @@ The program utilizes Python 3.11.2 and PyQT6. The required dependencies can be f
       2. `-w` - windowed, noconsole file
       3. `-n` - custom name of the app
 
-Program reads the data for tasks from configuration file called `config.json`. Its location depends on the system the program runs on:
-- Windows: `C:\CTF_config\config.json`
-- Linux: `/usr/CTF_config/config.json`
+Program reads the data for tasks from configuration file called `config.json`. The file itself should be stored within programs root directory.
 
 ## Layout editing
 
@@ -29,6 +27,14 @@ pyuic6 .\CTF_QA_gui.ui -o gui.py
 ```
 
 Which then is utilized by the application.
+
+## Creating config
+
+In folder `config_example_preparation` you can find `config_strings.py` module being a database of strings for module `prepare_config.py` which stores the simple program for `config.json` creation.
+
+There is prepared a template which the user can fill out and add new `tasks` and `questions`.
+
+The config file stores the answers encrypted with combination of *Base64* and *ROT13* - this ensures the basic safety against nosy contestants.
 
 ## Template configuration
 
