@@ -17,12 +17,40 @@ def decode_answer(answer: str):
     base_decode = base64.decodebytes(str_decoded.encode('utf-8'))
     return base_decode.decode('utf-8')
 
+def process_task_config(task: dict):
+    '''
+    Adding None keyword to task dictionary keys, asserting the dictionary will be properly configured in further processing.
+    
+    - `task_desc` - optional key, None or str
+    '''
+    if 'task_desc' not in task:
+        task['task_desc'] = None
+    return task
+
+def process_question_config(question: dict):
+    '''
+    Adding None keyword to question dictionary keys, asserting the dictionary will be properly configured in further processing.
+    
+    - `q_desc` - optional key, None or str
+    - `q_answer` - optional key, None or str
+    - `q_hint` - optional key, None or str
+    '''
+    if 'q_desc' not in question:
+        question['q_desc'] = None
+    if 'q_answer' not in question:
+        question['q_answer'] = None
+    if 'q_hint' not in question:
+        question['q_hint'] = None
+    return question
+
 def read_file():
     with open("config.json", "r", encoding='utf-8') as config_file:
         ctf_configs = json.load(config_file)
         
         for task in ctf_configs['tasks']:
+            task = process_task_config(task)
             for question in task['questions']:
+                question = process_question_config(question)
                 question['q_answer'] = decode_answer(question['q_answer'])
         
         return ctf_configs
