@@ -7,14 +7,16 @@ Current dependencies can be found in `requirements.txt` file.
 
 ## Installation
 
-The program utilizes Python 3.11.2 and PyQT6. The required dependencies can be found in `requirements.txt` file.
+The program utilizes Python 3.12.1 and PyQT6. The required dependencies can be found in `requirements.txt` file.
 
 1. Program can run by installing dependencies and executing `main.py` via Python.
-2. Program executable for Windows was generated and can be found under *Releases*.
-   1. Script for generating the executable: `pyinstaller main.py -D -w -n CTF-QA`
+2. Program executable for Windows was generated and can be found under *[Releases](https://github.com/putrequest/PUTcyberCONF-CTF_QA/releases)*.
+   1. Script for generating the executable: `pyinstaller main.py -F -w -n CTF-QA`
+      1. `-F` - create one-file bundle
       1. `-D` - create one-folder bundle
       2. `-w` - windowed, noconsole file
       3. `-n` - custom name of the app
+   2. Versions before `v1.0` were created with switch `-D` instead of `-F` and are available only for **Windows**.
 
 Program reads the data for tasks from configuration file called `config.json`. The file itself should be stored within programs root directory.
 
