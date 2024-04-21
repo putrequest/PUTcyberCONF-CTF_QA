@@ -7,7 +7,7 @@ Current dependencies can be found in `requirements.txt` file.
 
 ## Installation
 
-The program utilizes Python 3.11.2 and PyQT6. The required dependencies can be found in `requirements.txt` file.
+The program utilizes Python 3.12.1 and PyQT6. The required dependencies can be found in `requirements.txt` file.
 
 1. Program can run by installing dependencies and executing `main.py` via Python.
 2. Program executable for Windows was generated and can be found under *[Releases](https://github.com/putrequest/PUTcyberCONF-CTF_QA/releases)*.
