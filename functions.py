@@ -52,8 +52,8 @@ def read_file():
             for question in task['questions']:
                 question = process_question_config(question)
                 # if `encoded` flag set, decode answer
-                if 'encoded' in ctf_configs:
-                    if ctf_configs['encoded'] == None:
+                if 'encrypted' in ctf_configs:
+                    if ctf_configs['encrypted'] == None:
                         continue
                     question['q_answer'] = decode_answer(question['q_answer'])
         

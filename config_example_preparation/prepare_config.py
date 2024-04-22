@@ -8,7 +8,7 @@ import config_strings
 
 config_template = {
     "workshop": "workshop name",
-    "encoded": True,
+    "encrypted": True,
     "tasks": [
         {
             "task_id": 1,
