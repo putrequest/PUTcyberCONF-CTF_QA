@@ -36,13 +36,16 @@ In folder `config_example_preparation` you can find `config_strings.py` module b
 
 There is prepared a template which the user can fill out and add new `tasks` and `questions`.
 
-The config file stores the answers encrypted with combination of *Base64* and *ROT13* - this ensures the basic safety against nosy contestants.
+If you want the answers to be encrypted, set `encrypted` key to `true`:
+
+- The config file stores the answers encrypted with combination of *Base64* and *ROT13* - this ensures the basic safety against nosy contestants.
 
 ## Template configuration
 
 ``` json
 {
     "workshop": "Nazwa warsztatu",
+    "encrypted": true,
     "tasks": [
         {
             "task_id": "ID zadania",

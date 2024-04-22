@@ -8,6 +8,7 @@ import config_strings
 
 config_template = {
     "workshop": "workshop name",
+    "encoded": True,
     "tasks": [
         {
             "task_id": 1,

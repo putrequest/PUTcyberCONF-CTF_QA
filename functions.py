@@ -51,7 +51,11 @@ def read_file():
             task = process_task_config(task)
             for question in task['questions']:
                 question = process_question_config(question)
-                question['q_answer'] = decode_answer(question['q_answer'])
+                # if `encoded` flag set, decode answer
+                if 'encoded' in ctf_configs:
+                    if ctf_configs['encoded'] == None:
+                        continue
+                    question['q_answer'] = decode_answer(question['q_answer'])
         
         return ctf_configs
     
