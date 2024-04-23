@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QFrame, QLineEdit, QPushButton, QGroupBox
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6 import QtGui
 from PyQt6 import QtWidgets as widget
 
@@ -63,17 +63,33 @@ def reset_progress():
     # go through each task and reset progress
     print("TODO")
     
-def check_step(submit_button: QPushButton):
+def set_check_image(img: QLabel, answer: bool, initial: bool = False):
+    if initial:
+        img.setPixmap(QtGui.QPixmap("./assets/check_icon/circle-question-solid.png").scaledToWidth(20, mode = Qt.TransformationMode.SmoothTransformation))
+        img.setMaximumWidth(25)
+        return
+    match answer:
+        case True: img.setPixmap(QtGui.QPixmap("./assets/check_icon/circle-check-solid.png").scaledToHeight(20, mode = Qt.TransformationMode.SmoothTransformation)),
+        case False: img.setPixmap(QtGui.QPixmap("./assets/check_icon/circle-xmark-solid.png").scaledToHeight(20, mode = Qt.TransformationMode.SmoothTransformation))
+    return
+    
+def check_step(submit_button: QPushButton, step_img: QLabel):
     submit_button.setEnabled(False)
     submit_button.setText("Zrobione")
+    set_check_image(step_img, True)
 
-def check_answer(submit_button: QPushButton, answer_box: QLineEdit = None, answer: str = None):        
+def check_answer(submit_button: QPushButton, answer_img: QLabel, answer_box: QLineEdit = None, answer: str = None):        
     current_text = answer_box.text()
     
     if current_text == answer or current_text.upper() == answer.upper():
         answer_box.setEnabled(False)
         submit_button.setEnabled(False)
         submit_button.setText("Dobrze!")
+        set_check_image(answer_img, True)
+    else:
+        # display error for 1 second
+        set_check_image(answer_img, False)
+        QTimer.singleShot(500, lambda: set_check_image(answer_img, True, True))
         
 def display_hint(hint: str):
     msg_hint = widget.QMessageBox()
@@ -97,13 +113,21 @@ def populate_task_list(task_layout: QVBoxLayout, title: QLabel):
         for task in task_list:
             task_layout.addWidget(set_task(task))
     except FileNotFoundError:
-        msg_no_config_file = widget.QMessageBox()
-        msg_no_config_file.setWindowTitle("Brak pliku!")
-        msg_no_config_file.setText("Nie znaleziono pliku konfiguracyjnego!")
-        msg_no_config_file.setInformativeText("Program się zakończy.")
-        msg_no_config_file.setIcon(widget.QMessageBox.Icon.Critical)
-        msg_no_config_file.exec()
+        make_message(
+            title       = "Brak pliku!",
+            main_text   = "Nie znaleziono pliku konfiguracyjnego!",
+            sub_text    = "Program się zakończy.",
+            icon        = widget.QMessageBox.Icon.Critical
+        )
         sys.exit()
+        
+def make_message(title: str, main_text: str, sub_text: str, icon: widget.QMessageBox.Icon):
+    msg_popup = widget.QMessageBox()
+    msg_popup.setWindowTitle(title)
+    msg_popup.setText(main_text)
+    msg_popup.setInformativeText(sub_text)
+    msg_popup.setIcon(icon)
+    msg_popup.exec()
         
 def set_task(task: dict):
     '''
@@ -172,18 +196,21 @@ def set_question(question: dict, font: QtGui.QFont):
     question_answer = QLineEdit()
     question_answer.setPlaceholderText(generate_placeholder(question['q_answer']))
     question_answer.setFont(font)
-    inner_layout_answer = QVBoxLayout()
+    
+    question_answer_indicator = QLabel()
+    
+    set_check_image(question_answer_indicator, False, True)
+    
+    inner_layout_answer = QHBoxLayout()
+    inner_layout_answer.addWidget(question_answer_indicator)
     inner_layout_answer.addWidget(question_answer)
         
     question_submit = QPushButton()
     question_submit.setText("Sprawdź")
-    question_submit.clicked.connect(functools.partial(check_answer, question_submit, question_answer, question['q_answer']))
+    question_submit.clicked.connect(functools.partial(check_answer, question_submit, question_answer_indicator, question_answer, question['q_answer']))
     question_submit.setFont(font)
     inner_layout_submit = QVBoxLayout()
     inner_layout_submit.addWidget(question_submit)
-
-    # layout_question.addWidget(question_answer)
-    # layout_question.addWidget(question_submit)
     
     if question['q_hint'] != None:
         question_hint = QPushButton()
@@ -218,17 +245,22 @@ def set_question(question: dict, font: QtGui.QFont):
 def set_question_step(question: dict, font: QtGui.QFont):
     layout_step = QHBoxLayout()
     
+    step_indicator = QLabel()
+    
+    set_check_image(step_indicator, False, True)
+    
     step_desc = QLabel(question['q_desc'])
     step_desc.setWordWrap(True)
     step_desc.setTextFormat(Qt.TextFormat.MarkdownText)
     step_desc.setFont(font)
-    inner_layout_desc = QVBoxLayout()
+    inner_layout_desc = QHBoxLayout()
+    inner_layout_desc.addWidget(step_indicator)
     inner_layout_desc.addWidget(step_desc)
     
     step_submit = QPushButton()
     step_submit.setText("Wykonaj")
     step_submit.setFont(font)
-    step_submit.clicked.connect(functools.partial(check_step, step_submit))
+    step_submit.clicked.connect(functools.partial(check_step, step_submit, step_indicator))
     inner_layout_submit = QVBoxLayout()
     inner_layout_submit.addWidget(step_submit)
     
