@@ -10,6 +10,13 @@ FONT_SIZE_BOX = 14
 FONT_SIZE_BOX_DESCRIPTION = 13
 FONT_SIZE_INTERNAL = 12
 
+answer_button_list = []
+
+class CustomPushButton(QPushButton):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ifDone = False
+
 def decode_answer(answer: str):
     if answer == None:
         return None
@@ -73,19 +80,35 @@ def set_check_image(img: QLabel, answer: bool, initial: bool = False):
         case False: img.setPixmap(QtGui.QPixmap("./assets/check_icon/circle-xmark-solid.png").scaledToHeight(20, mode = Qt.TransformationMode.SmoothTransformation))
     return
     
-def check_step(submit_button: QPushButton, step_img: QLabel):
+def check_step(submit_button: CustomPushButton, step_img: QLabel):
     submit_button.setEnabled(False)
     submit_button.setText("Zrobione")
+    submit_button.ifDone = True
     set_check_image(step_img, True)
+    
+    for answer in answer_button_list:
+        if not answer.ifDone:
+            return
+        
+    # all answers are correct
+    make_message("Gratulacje!", "Wszystkie odpowiedzi są poprawne!", "Zakończono zadanie.", widget.QMessageBox.Icon.Information)
 
-def check_answer(submit_button: QPushButton, answer_img: QLabel, answer_box: QLineEdit = None, answer: str = None):        
+def check_answer(submit_button: CustomPushButton, answer_img: QLabel, answer_box: QLineEdit = None, answer: str = None):        
     current_text = answer_box.text()
     
     if current_text == answer or current_text.upper() == answer.upper():
         answer_box.setEnabled(False)
         submit_button.setEnabled(False)
         submit_button.setText("Dobrze!")
+        submit_button.ifDone = True
         set_check_image(answer_img, True)
+        
+        for answer in answer_button_list:
+            if not answer.ifDone:
+                return
+            
+        # all answers are correct
+        make_message("Gratulacje!", "Wszystkie odpowiedzi są poprawne!", "Zakończono zadanie.", widget.QMessageBox.Icon.Information)
     else:
         # display error for 1 second
         set_check_image(answer_img, False)
@@ -173,7 +196,7 @@ def set_task(task: dict):
         task_layout_main.addWidget(task_desc)
         task_layout_main.addWidget(task_separator)
     
-    # question list
+    # question font setting
     
     question_font_interal = QtGui.QFont()
     question_font_interal.setFamily(FONT_FAMILY)
@@ -205,10 +228,11 @@ def set_question(question: dict, font: QtGui.QFont):
     inner_layout_answer.addWidget(question_answer_indicator)
     inner_layout_answer.addWidget(question_answer)
         
-    question_submit = QPushButton()
+    question_submit = CustomPushButton()
     question_submit.setText("Sprawdź")
     question_submit.clicked.connect(functools.partial(check_answer, question_submit, question_answer_indicator, question_answer, question['q_answer']))
     question_submit.setFont(font)
+    answer_button_list.append(question_submit)
     inner_layout_submit = QVBoxLayout()
     inner_layout_submit.addWidget(question_submit)
     
@@ -257,10 +281,11 @@ def set_question_step(question: dict, font: QtGui.QFont):
     inner_layout_desc.addWidget(step_indicator)
     inner_layout_desc.addWidget(step_desc)
     
-    step_submit = QPushButton()
+    step_submit = CustomPushButton()
     step_submit.setText("Wykonaj")
     step_submit.setFont(font)
     step_submit.clicked.connect(functools.partial(check_step, step_submit, step_indicator))
+    answer_button_list.append(step_submit)
     inner_layout_submit = QVBoxLayout()
     inner_layout_submit.addWidget(step_submit)
     

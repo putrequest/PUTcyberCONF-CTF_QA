@@ -1,0 +1,7 @@
+main-green: #59981AFF
+sub-green: #81B622FF
+grey: #4D4D4DFF
+red: #D40000FF
+
+INFO: icons used from font-awesome
+- https://fontawesome.com/search?q=circle-&o=r&m=free
