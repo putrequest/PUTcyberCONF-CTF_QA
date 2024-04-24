@@ -1,6 +1,6 @@
 from helpers import *
 
-ctf = CTF_Config("Crypto", True)
+ctf = CTF_Config("Crypto", encrypted=True)
 
 task_1_name = "task_name"
 task_1_desc = """
