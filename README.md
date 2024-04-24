@@ -38,20 +38,22 @@ Which then is utilized by the application.
 
 ## Creating config
 
-In folder `config_example_preparation` you can find `config_strings.py` module being a database of strings for module `prepare_config.py` which stores the simple program for `config.json` creation.
+In folder `config_example_preparation` there is a script for creating a configuration.
 
-There is prepared a template which the user can fill out and add new `tasks` and `questions`.
+You need to edit `config_strings.py` file with appropriate data and order. You can fill out it with new `tasks` and `questions`.
+
+The module `helpers.py` stores the necessary classes used in `config.json` configuration and creation.
 
 If you want the answers to be encrypted, set `encrypted` key to `true`:
 
 - The config file stores the answers encrypted with combination of *Base64* and *ROT13* - this ensures the basic safety against nosy contestants.
 
-## Template configuration
+## Template JSON configuration
 
 ``` json
 {
     "workshop": "Nazwa warsztatu",
-    "encrypted": true,
+    "encrypted": true, // default: null
     "tasks": [
         {
             "task_id": "ID zadania",
@@ -95,6 +97,7 @@ Main scope should consists of:
 ``` json
 {
     "workshop": "workshop name",
+    "encrypted": true,
     "tasks": [
         {
             // task 1
@@ -115,6 +118,7 @@ There is a config:
 ``` json
 {
    "workshop": "Warsztaty Forensics",
+   "encrypted": true,
    "tasks": [
       {
          "task_id": 2,
