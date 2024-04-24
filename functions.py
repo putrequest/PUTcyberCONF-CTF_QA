@@ -3,7 +3,7 @@ from PyQt6.QtCore import Qt, QTimer
 from PyQt6 import QtGui
 from PyQt6 import QtWidgets as widget
 
-import functools, json, re, sys, base64, codecs
+import functools, json, re, sys, base64, codecs, os
 
 FONT_FAMILY = "Lato"
 FONT_SIZE_BOX = 14
@@ -16,6 +16,18 @@ class CustomPushButton(QPushButton):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ifDone = False
+        
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+        
+    return os.path.join(base_path, relative_path)
+
+def set_app_icon(app: widget.QApplication):
+    app_icon = QtGui.QIcon(resource_path("./assets/app_icon/PUTr_5050_mm.png"))
+    app.setWindowIcon(app_icon)
 
 def decode_answer(answer: str):
     if answer == None:
@@ -70,14 +82,16 @@ def reset_progress():
     # go through each task and reset progress
     print("TODO")
     
+
+
 def set_check_image(img: QLabel, answer: bool, initial: bool = False):
     if initial:
-        img.setPixmap(QtGui.QPixmap("./assets/check_icon/circle-question-solid.png").scaledToWidth(20, mode = Qt.TransformationMode.SmoothTransformation))
+        img.setPixmap(QtGui.QPixmap(resource_path("./assets/check_icon/circle-question-solid.png")).scaledToWidth(20, mode = Qt.TransformationMode.SmoothTransformation))
         img.setMaximumWidth(25)
         return
     match answer:
-        case True: img.setPixmap(QtGui.QPixmap("./assets/check_icon/circle-check-solid.png").scaledToHeight(20, mode = Qt.TransformationMode.SmoothTransformation)),
-        case False: img.setPixmap(QtGui.QPixmap("./assets/check_icon/circle-xmark-solid.png").scaledToHeight(20, mode = Qt.TransformationMode.SmoothTransformation))
+        case True: img.setPixmap(QtGui.QPixmap(resource_path("./assets/check_icon/circle-check-solid.png")).scaledToHeight(20, mode = Qt.TransformationMode.SmoothTransformation)),
+        case False: img.setPixmap(QtGui.QPixmap(resource_path("./assets/check_icon/circle-xmark-solid.png")).scaledToHeight(20, mode = Qt.TransformationMode.SmoothTransformation))
     return
     
 def check_step(submit_button: CustomPushButton, step_img: QLabel):
