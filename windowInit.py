@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QVBoxLayout, QApplication
 from PyQt6 import QtWidgets as widget
+from PyQt6 import QtGui
 # local imports
 import gui, functions
 import qdarkstyle
@@ -12,8 +13,6 @@ class MainWindow(widget.QMainWindow):
         self.ui.setupUi(self)
         
         functions.set_app_icon(app)
-        
-        self.setFixedSize(self.size())
         
         self.UI_manager(app)
         self.show()
@@ -36,8 +35,10 @@ class MainWindow(widget.QMainWindow):
         
         font = self.ui.title.font()
         font.setBold(True)
-        font.setPointSize(18)
-        font.setFamily("Fira Code")
+        font.setPointSize(24)
+        font_id = QtGui.QFontDatabase.addApplicationFont(functions.resource_path("assets/fonts/AnonymousPro-Bold.ttf"))
+        font_family = QtGui.QFontDatabase.applicationFontFamilies(font_id)[0]
+        font.setFamily(font_family)
         self.ui.title.setFont(font)
         
         self.task_layout = QVBoxLayout(self.ui.scroll_area_tasks_widget)

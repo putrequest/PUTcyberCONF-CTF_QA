@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('./assets/check_icon/circle-question-solid.png', 'assets/check_icon'), ('./assets/check_icon/circle-check-solid.png', 'assets/check_icon'), ('./assets/check_icon/circle-xmark-solid.png', 'assets/check_icon'), ('./assets/app_icon/PUTr_icon.png', 'assets/app_icon')],
+    datas=[('./assets/check_icon/circle-question-solid.png', 'assets/check_icon'), ('./assets/check_icon/circle-check-solid.png', 'assets/check_icon'), ('./assets/check_icon/circle-xmark-solid.png', 'assets/check_icon'), ('./assets/app_icon/PUTr_icon.png', 'assets/app_icon'), ('./assets/fonts/AnonymousPro-Bold.ttf', 'assets/fonts'), ('./assets/fonts/AtkinsonHyperlegible-Regular.ttf', 'assets/fonts')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

@@ -5,7 +5,7 @@ from PyQt6 import QtWidgets as widget
 
 import functools, json, re, sys, base64, codecs, os
 
-FONT_FAMILY = "Lato"
+FONT_FAMILY_NAME = "./assets/fonts/AtkinsonHyperlegible-Regular.ttf"
 FONT_SIZE_BOX = 14
 FONT_SIZE_BOX_DESCRIPTION = 13
 FONT_SIZE_INTERNAL = 12
@@ -16,6 +16,8 @@ class CustomPushButton(QPushButton):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ifDone = False
+        
+
         
 def resource_path(relative_path):
     try:
@@ -178,6 +180,9 @@ def set_task(task: dict):
     
     task_box = QGroupBox()
     task_box.setTitle(task['task_name'])
+    
+    
+    FONT_FAMILY = QtGui.QFontDatabase.applicationFontFamilies(QtGui.QFontDatabase.addApplicationFont(resource_path(FONT_FAMILY_NAME)))[0]
     
     # setup fonts
     task_font = task_box.font()
