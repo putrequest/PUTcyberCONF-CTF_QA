@@ -16,7 +16,6 @@ class MainWindow(widget.QMainWindow):
         self.setFixedSize(self.size())
         
         self.UI_manager(app)
-        self.program_logic()
         self.show()
 
     def UI_manager(self, app: QApplication):
@@ -42,7 +41,5 @@ class MainWindow(widget.QMainWindow):
         self.ui.title.setFont(font)
         
         self.task_layout = QVBoxLayout(self.ui.scroll_area_tasks_widget)
-        self.task_layout.addStretch()
-        
-    def program_logic(self):        
         functions.populate_task_list(self.task_layout, self.ui.title)
+        self.task_layout.addStretch()
