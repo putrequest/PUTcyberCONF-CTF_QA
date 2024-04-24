@@ -26,7 +26,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 def set_app_icon(app: widget.QApplication):
-    app_icon = QtGui.QIcon(resource_path("./assets/app_icon/PUTr_5050_mm.png"))
+    app_icon = QtGui.QIcon(resource_path("./assets/app_icon/PUTr_icon.png"))
     app.setWindowIcon(app_icon)
 
 def decode_answer(answer: str):

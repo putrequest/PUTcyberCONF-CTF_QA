@@ -11,12 +11,18 @@ The program utilizes Python 3.12.1 and PyQT6. The required dependencies can be f
 
 1. Program can run by installing dependencies and executing `main.py` via Python.
 2. Program executable for Windows was generated and can be found under *[Releases](https://github.com/putrequest/PUTcyberCONF-CTF_QA/releases)*.
-   1. Script for generating the executable: `pyinstaller main.py -F -w -n CTF-QA`
-      1. `-F` - create one-file bundle
-      1. `-D` - create one-folder bundle
-      2. `-w` - windowed, noconsole file
-      3. `-n` - custom name of the app
-   2. Versions before `v1.0` were created with switch `-D` instead of `-F` and are available only for **Windows**.
+   1. Script for generating the executable: `pyinstaller --add-data 'path/to/file' --add-data 'path/to/other/file' main.py -F -w -n CTF-QA`
+      1. `--add-data` - append external assets to the file
+      2. `-F` - create one-file bundle
+      3. `-D` - create one-folder bundle
+      4. `-w` - windowed, noconsole file
+      5. `-n` - custom name of the app
+   2. The settings for pyinstaller can also be wrote to file with `.spec` extension and then the script can be executed appropriately:
+        ```
+        pyinstaller CTF-QA.spec
+        ```
+      1. Example specification can be found in folder `config_standalone` and will be used in later releases due to the increasing number of dependencies.
+   3. Versions before `v1.0` were created with switch `-D` instead of `-F` and are available only for **Windows**.
 
 Program reads the data for tasks from configuration file called `config.json`. The file itself should be stored within programs root directory.
 

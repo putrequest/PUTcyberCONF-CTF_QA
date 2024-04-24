@@ -11,6 +11,8 @@ class MainWindow(widget.QMainWindow):
         self.ui = gui.Ui_CTF_QA()
         self.ui.setupUi(self)
         
+        functions.set_app_icon(app)
+        
         self.setFixedSize(self.size())
         
         self.UI_manager(app)

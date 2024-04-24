@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('./assets/check_icon/circle-question-solid.png', 'assets/check_icon'), ('./assets/check_icon/circle-check-solid.png', 'assets/check_icon'), ('./assets/check_icon/circle-xmark-solid.png', 'assets/check_icon')],
+    datas=[('./assets/check_icon/circle-question-solid.png', 'assets/check_icon'), ('./assets/check_icon/circle-check-solid.png', 'assets/check_icon'), ('./assets/check_icon/circle-xmark-solid.png', 'assets/check_icon'), ('./assets/app_icon/PUTr_icon.png', 'assets/app_icon')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,5 +35,4 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['assets\\app_icon\\icon.ico'],
 )
