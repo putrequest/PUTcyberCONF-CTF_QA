@@ -46,6 +46,8 @@ def process_task_config(task: dict):
     '''
     if 'task_desc' not in task:
         task['task_desc'] = None
+    if 'questions' not in task:
+        task['questions'] = []
     return task
 
 def process_question_config(question: dict):
@@ -213,10 +215,13 @@ def set_task(task: dict):
         
         # wrapping to layout main
         task_layout_main.addWidget(task_desc)
+        # if there is description, but no questions
+        if len(task['questions']) == 0:
+            return task_box
+        # if there are questions - add a separator
         task_layout_main.addWidget(task_separator)
     
     # question font setting
-    
     question_font_interal = QtGui.QFont()
     question_font_interal.setFamily(FONT_FAMILY)
     question_font_interal.setPointSize(FONT_SIZE_INTERNAL)
