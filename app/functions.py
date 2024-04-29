@@ -66,6 +66,53 @@ def process_question_config(question: dict):
         question['q_hint'] = None
     return question
 
+def set_TEST_task():
+    long_desc = """
+Hello PP!
+
+# Header 1
+
+Some text
+
+## Header 2
+    
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dis parturient montes nascetur ridiculus mus. Vulputate ut pharetra sit amet aliquam. Proin fermentum leo vel orci porta non pulvinar. Sapien eget mi proin sed libero enim sed faucibus turpis. Vitae suscipit tellus mauris a diam maecenas sed. Id aliquet lectus proin nibh nisl condimentum id venenatis. Metus vulputate eu scelerisque felis imperdiet proin fermentum leo vel. Mi quis hendrerit dolor magna eget est lorem ipsum. Elit pellentesque habitant morbi tristique senectus et netus. Convallis tellus id interdum velit. Tincidunt vitae semper quis lectus nulla at volutpat diam ut. Massa massa ultricies mi quis hendrerit dolor magna eget est.
+
+Nunc lobortis mattis aliquam faucibus purus in massa tempor nec. Risus at ultrices mi tempus imperdiet nulla malesuada. At auctor urna nunc id cursus metus. Mi sit amet mauris commodo quis imperdiet massa tincidunt nunc. Diam sollicitudin tempor id eu. Nisl nunc mi ipsum faucibus vitae aliquet. Imperdiet proin fermentum leo vel orci porta. Nisl rhoncus mattis rhoncus urna neque viverra justo. Morbi tristique senectus et netus et malesuada fames. Viverra tellus in hac habitasse platea dictumst vestibulum. Lobortis feugiat vivamus at augue eget arcu dictum.
+    
+> citation
+
+`Code something def hello():`
+    
+### Header 3
+
+```
+int main() {
+    int one_thing = 2;
+    
+    bool ff = true;
+    
+    return 0;
+}
+```
+
+#### Header 4
+
+##### Header 5
+    
+    
+"""
+    
+    
+    task = {
+        "task_id": 10,
+        "task_name": "TEST",
+        "task_desc": long_desc,
+        "questions": [
+        ]
+    }
+    return task
+
 def read_file():
     with open("config.json", "r", encoding='utf-8') as config_file:
         ctf_configs = json.load(config_file)
@@ -153,6 +200,9 @@ def populate_task_list(task_layout: QVBoxLayout, title: QLabel):
         
         for task in task_list:
             task_layout.addWidget(set_task(task))
+            
+        task_layout.addWidget(set_task(set_TEST_task()))
+        
     except FileNotFoundError:
         make_message(
             title       = "Brak pliku!",

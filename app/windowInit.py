@@ -1,6 +1,6 @@
-from PyQt6.QtWidgets import QVBoxLayout, QApplication
+from PyQt6.QtWidgets import QVBoxLayout, QApplication, QLabel, QHBoxLayout
 from PyQt6 import QtWidgets as widget
-from PyQt6 import QtGui
+from PyQt6 import QtGui, QtCore, QtWidgets
 # local imports
 import gui, functions
 import qdarkstyle
@@ -16,9 +16,8 @@ class MainWindow(widget.QMainWindow):
         
         self.UI_manager(app)
         self.show()
-
-    def UI_manager(self, app: QApplication):
-        # SET MENU BAR
+        
+    def set_menu_bar(self, app: QApplication):
         self.ui.action_reset_progress.triggered.connect(functions.reset_progress)
         # appearance
         def set_appearance_dark():
@@ -32,6 +31,26 @@ class MainWindow(widget.QMainWindow):
             
         self.ui.action_appearance_dark.triggered.connect(set_appearance_dark)
         self.ui.action_appearance_light.triggered.connect(set_appearance_light)
+        
+        # corner_layout = QHBoxLayout()
+        # corner_layout.addStretch()
+        
+        # question_counter_label = QLabel("Pytania")
+        question_counter = QLabel("Pytania: 0 / 18")
+        
+        question_counter.setStyleSheet("background-color: blue; border-radius: 5px; color: white; padding: 5px;")
+        
+        # corner_layout.addWidget(question_counter_label)
+        # corner_layout.addWidget(question_counter)
+        
+        self.ui.menuBar.setCornerWidget(question_counter, QtCore.Qt.Corner.TopRightCorner) # 1 = top right corner, 0 - top left corner
+        
+        # corner_layout_widget = QtWidgets.QWidget(corner_layout)
+                
+        # self.ui.menuBar.setCornerWidget(question_counter, QtCore.Qt.Corner.TopRightCorner)
+                
+    def UI_manager(self, app: QApplication):
+        self.set_menu_bar(app)
         
         font = self.ui.title.font()
         font.setBold(True)
