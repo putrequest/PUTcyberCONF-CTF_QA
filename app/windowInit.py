@@ -44,5 +44,5 @@ class MainWindow(widget.QMainWindow):
         self.ui.title.setFont(font)
         
         self.task_layout = QVBoxLayout(self.ui.scroll_area_tasks_widget)
-        functions.populate_task_list(self.task_layout, self.ui.title, self.ui.menuBar)
+        functions.populate_task_list(self.task_layout, self.ui.title, app, self.ui.menuBar)
         self.task_layout.addStretch()

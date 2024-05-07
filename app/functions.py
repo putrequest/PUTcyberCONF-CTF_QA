@@ -1,9 +1,9 @@
-from PyQt6.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QFrame, QLineEdit, QPushButton, QGroupBox
+from PyQt6.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QFrame, QLineEdit, QPushButton, QGroupBox, QApplication
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6 import QtGui
 from PyQt6 import QtWidgets as widget
 
-import functools, json, re, sys, base64, codecs, os
+import functools, json, re, sys, base64, codecs, os, getopt
 
 FONT_FAMILY_NAME = "./assets/fonts/AtkinsonHyperlegible-Regular.ttf"
 FONT_SIZE_BOX = 14
@@ -36,6 +36,14 @@ class CustomPushButton(QPushButton):
         self.ifDone = False
 
 # other methods
+
+def process_arguments(app: widget.QApplication):
+    try:
+        opts, args = getopt.getopt(app.arguments()[1:], "c:", ["config="])
+        return opts
+    except getopt.GetoptError:
+        print("Invalid arguments!")
+    return None
         
 def resource_path(relative_path):
     try:
@@ -47,6 +55,7 @@ def resource_path(relative_path):
 
 def set_app_icon(app: widget.QApplication):
     app_icon = QtGui.QIcon(resource_path("./assets/app_icon/icon.ico"))
+    print("app_args:", app.arguments())
     app.setWindowIcon(app_icon)
 
 def decode_answer(answer: str):
@@ -84,8 +93,16 @@ def process_question_config(question: dict):
         question['q_hint'] = None
     return question
 
-def read_file():
-    with open("config.json", "r", encoding='utf-8') as config_file:
+def read_file(custom_config: str = None):   
+    config_location = "config.json"
+    
+    if custom_config != None:
+        for opt in custom_config:
+            if opt[0] in ("-c", "--config"):
+                config_location = opt[1]
+                break   
+     
+    with open(config_location, "r", encoding='utf-8') as config_file:
         ctf_configs = json.load(config_file)
         
         for task in ctf_configs['tasks']:
@@ -161,9 +178,9 @@ def display_hint(hint: str):
 def generate_placeholder(answer: str):
     return re.sub(r"[\w!]", "*", answer)
         
-def populate_task_list(task_layout: QVBoxLayout, title: QLabel, menu_bar: widget.QMenuBar):
+def populate_task_list(task_layout: QVBoxLayout, title: QLabel, app: QApplication, menu_bar: widget.QMenuBar):
     try:
-        task_list = read_file()
+        task_list = read_file(process_arguments(app))
     
         title.setText(task_list['workshop'])
         
