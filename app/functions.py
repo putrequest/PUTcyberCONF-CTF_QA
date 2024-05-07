@@ -289,6 +289,9 @@ def set_question(question: dict, font: QtGui.QFont, question_total_label: Counte
     inner_layout_submit = QVBoxLayout()
     inner_layout_submit.addWidget(question_submit)
     
+    # enable question approval on enter
+    question_answer.returnPressed.connect(functools.partial(check_answer, question_total_label, question_submit, question_answer_indicator, question_answer, question['q_answer']))
+    
     if question['q_hint'] != None:
         question_hint = QPushButton()
         question_hint.setText("Podpowiedź")
