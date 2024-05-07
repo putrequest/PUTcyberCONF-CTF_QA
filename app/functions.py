@@ -12,12 +12,30 @@ FONT_SIZE_INTERNAL = 12
 
 answer_button_list = []
 
+class CounterQLabel(QLabel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.questions_done = 0
+        self.questions_total = 0
+        self.__update()
+
+    def set_question_done(self):
+        self.questions_done += 1
+        self.__update()
+
+    def set_question_total(self, total: int):
+        self.questions_total = total
+        self.__update()
+
+    def __update(self):
+        self.setText(f"Pytania: {self.questions_done} / {self.questions_total}")
+
 class CustomPushButton(QPushButton):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ifDone = False
-        
 
+# other methods
         
 def resource_path(relative_path):
     try:
@@ -66,53 +84,6 @@ def process_question_config(question: dict):
         question['q_hint'] = None
     return question
 
-def set_TEST_task():
-    long_desc = """
-Hello PP!
-
-# Header 1
-
-Some text
-
-## Header 2
-    
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dis parturient montes nascetur ridiculus mus. Vulputate ut pharetra sit amet aliquam. Proin fermentum leo vel orci porta non pulvinar. Sapien eget mi proin sed libero enim sed faucibus turpis. Vitae suscipit tellus mauris a diam maecenas sed. Id aliquet lectus proin nibh nisl condimentum id venenatis. Metus vulputate eu scelerisque felis imperdiet proin fermentum leo vel. Mi quis hendrerit dolor magna eget est lorem ipsum. Elit pellentesque habitant morbi tristique senectus et netus. Convallis tellus id interdum velit. Tincidunt vitae semper quis lectus nulla at volutpat diam ut. Massa massa ultricies mi quis hendrerit dolor magna eget est.
-
-Nunc lobortis mattis aliquam faucibus purus in massa tempor nec. Risus at ultrices mi tempus imperdiet nulla malesuada. At auctor urna nunc id cursus metus. Mi sit amet mauris commodo quis imperdiet massa tincidunt nunc. Diam sollicitudin tempor id eu. Nisl nunc mi ipsum faucibus vitae aliquet. Imperdiet proin fermentum leo vel orci porta. Nisl rhoncus mattis rhoncus urna neque viverra justo. Morbi tristique senectus et netus et malesuada fames. Viverra tellus in hac habitasse platea dictumst vestibulum. Lobortis feugiat vivamus at augue eget arcu dictum.
-    
-> citation
-
-`Code something def hello():`
-    
-### Header 3
-
-```
-int main() {
-    int one_thing = 2;
-    
-    bool ff = true;
-    
-    return 0;
-}
-```
-
-#### Header 4
-
-##### Header 5
-    
-    
-"""
-    
-    
-    task = {
-        "task_id": 10,
-        "task_name": "TEST",
-        "task_desc": long_desc,
-        "questions": [
-        ]
-    }
-    return task
-
 def read_file():
     with open("config.json", "r", encoding='utf-8') as config_file:
         ctf_configs = json.load(config_file)
@@ -132,8 +103,6 @@ def read_file():
 def reset_progress():
     # go through each task and reset progress
     print("TODO")
-    
-
 
 def set_check_image(img: QLabel, answer: bool, initial: bool = False):
     if initial:
@@ -145,11 +114,12 @@ def set_check_image(img: QLabel, answer: bool, initial: bool = False):
         case False: img.setPixmap(QtGui.QPixmap(resource_path("./assets/check_icon/circle-xmark-solid.png")).scaledToHeight(20, mode = Qt.TransformationMode.SmoothTransformation))
     return
     
-def check_step(submit_button: CustomPushButton, step_img: QLabel):
+def check_step(question_total_label: CounterQLabel, submit_button: CustomPushButton, step_img: QLabel):
     submit_button.setEnabled(False)
     submit_button.setText("Zrobione")
     submit_button.ifDone = True
     set_check_image(step_img, True)
+    question_total_label.set_question_done()
     
     for answer in answer_button_list:
         if not answer.ifDone:
@@ -158,15 +128,17 @@ def check_step(submit_button: CustomPushButton, step_img: QLabel):
     # all answers are correct
     make_message("Gratulacje!", "Wszystkie odpowiedzi są poprawne!", "Zakończono zadanie.", widget.QMessageBox.Icon.Information)
 
-def check_answer(submit_button: CustomPushButton, answer_img: QLabel, answer_box: QLineEdit = None, answer: str = None):        
+def check_answer(question_total_label: CounterQLabel, submit_button: CustomPushButton, answer_img: QLabel, answer_box: QLineEdit = None, answer: str = None):        
     current_text = answer_box.text()
     
+    # TOFIX: case insensitive comparison
     if current_text == answer or current_text.upper() == answer.upper():
         answer_box.setEnabled(False)
         submit_button.setEnabled(False)
         submit_button.setText("Dobrze!")
         submit_button.ifDone = True
         set_check_image(answer_img, True)
+        question_total_label.set_question_done()
         
         for answer in answer_button_list:
             if not answer.ifDone:
@@ -189,19 +161,24 @@ def display_hint(hint: str):
 def generate_placeholder(answer: str):
     return re.sub(r"[\w!]", "*", answer)
         
-def populate_task_list(task_layout: QVBoxLayout, title: QLabel):
+def populate_task_list(task_layout: QVBoxLayout, title: QLabel, menu_bar: widget.QMenuBar):
     try:
         task_list = read_file()
     
         title.setText(task_list['workshop'])
         
+        questions_total_label = CounterQLabel()
+        questions_total_label.setStyleSheet("background-color: #4D6357; border-radius: 5px; color: #b6C044; padding: 5px; font-size: 14px;")
+        
+        menu_bar.setCornerWidget(questions_total_label, Qt.Corner.TopRightCorner)
+        
         # sort task list
         task_list = sorted(task_list['tasks'], key=lambda x: x['task_id'])
         
         for task in task_list:
-            task_layout.addWidget(set_task(task))
+            task_layout.addWidget(set_task(task, questions_total_label))
             
-        task_layout.addWidget(set_task(set_TEST_task()))
+        questions_total_label.set_question_total(len(answer_button_list))
         
     except FileNotFoundError:
         make_message(
@@ -220,7 +197,7 @@ def make_message(title: str, main_text: str, sub_text: str, icon: widget.QMessag
     msg_popup.setIcon(icon)
     msg_popup.exec()
         
-def set_task(task: dict):
+def set_task(task: dict, question_total_label: CounterQLabel):
     '''
     Creating new task with:
     - task_name
@@ -232,6 +209,8 @@ def set_task(task: dict):
     
     task_box = QGroupBox()
     task_box.setTitle(task['task_name'])
+    # TODO: rethink the borders
+    task_box.setStyleSheet("QGroupBox { border: 1px solid #96B024; border-radius: 10px; padding-top: 10px; }")
     
     
     FONT_FAMILY = QtGui.QFontDatabase.applicationFontFamilies(QtGui.QFontDatabase.addApplicationFont(resource_path(FONT_FAMILY_NAME)))[0]
@@ -281,13 +260,13 @@ def set_task(task: dict):
     
     for question in question_list:
         if question['q_answer'] == None:
-            task_layout_main.addLayout(set_question_step(question, question_font_interal))
+            task_layout_main.addLayout(set_question_step(question, question_font_interal, question_total_label))
             continue
-        task_layout_main.addLayout(set_question(question, question_font_interal))
+        task_layout_main.addLayout(set_question(question, question_font_interal, question_total_label))
         
     return task_box
         
-def set_question(question: dict, font: QtGui.QFont):
+def set_question(question: dict, font: QtGui.QFont, question_total_label: CounterQLabel):
     layout_question = QHBoxLayout()
     
     question_answer = QLineEdit()
@@ -304,7 +283,7 @@ def set_question(question: dict, font: QtGui.QFont):
         
     question_submit = CustomPushButton()
     question_submit.setText("Sprawdź")
-    question_submit.clicked.connect(functools.partial(check_answer, question_submit, question_answer_indicator, question_answer, question['q_answer']))
+    question_submit.clicked.connect(functools.partial(check_answer, question_total_label, question_submit, question_answer_indicator, question_answer, question['q_answer']))
     question_submit.setFont(font)
     answer_button_list.append(question_submit)
     inner_layout_submit = QVBoxLayout()
@@ -340,7 +319,7 @@ def set_question(question: dict, font: QtGui.QFont):
     
     return layout_question
 
-def set_question_step(question: dict, font: QtGui.QFont):
+def set_question_step(question: dict, font: QtGui.QFont, question_total_label: CounterQLabel):
     layout_step = QHBoxLayout()
     
     step_indicator = QLabel()
@@ -358,7 +337,7 @@ def set_question_step(question: dict, font: QtGui.QFont):
     step_submit = CustomPushButton()
     step_submit.setText("Wykonaj")
     step_submit.setFont(font)
-    step_submit.clicked.connect(functools.partial(check_step, step_submit, step_indicator))
+    step_submit.clicked.connect(functools.partial(check_step, question_total_label, step_submit, step_indicator))
     answer_button_list.append(step_submit)
     inner_layout_submit = QVBoxLayout()
     inner_layout_submit.addWidget(step_submit)
