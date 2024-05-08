@@ -42,6 +42,18 @@ In folder `config_example_preparation` there is a script for creating a configur
 
 You need to edit `config_strings.py` file with appropriate data and order. You can fill out it with new `tasks` and `questions`.
 
+Each `task` has possible arguments:
+
+> `task_name` - task name
+> `task_desc` - (optional argument) task description
+
+Each `question` has possible arguments:
+
+> `q_desc` - (optional argument) question description
+> `q_answer` - (optional argument) questions answer
+> `q_hint` - (optional argument) question hint
+> `q_answer_case_sensitive` - (optional argument) boolean value, by default all answers are checked in case insensitive manner (to minimize mistakes when inserting answer with diferent character sizes)
+
 The module `helpers.py` stores the necessary classes used in `config.json` configuration and creation.
 
 If you want the answers to be encrypted, set `encrypted` key to `true`:
@@ -64,13 +76,15 @@ If you want the answers to be encrypted, set `encrypted` key to `true`:
                     "q_id": "ID pytania",
                     "q_desc": "Opis pytania [default: null]",
                     "q_answer": "Odpowiedź [default: null]",
-                    "q_hint": "Podpowiedź [default: null]"
+                    "q_hint": "Podpowiedź [default: null]",
+                    "q_answer_case_sensitive": false,
                 },
                 {
                     "q_id": "ID pytania",
                     "q_desc": "Opis pytania [default: null]",
                     "q_answer": "Odpowiedź [default: null]",
-                    "q_hint": "Podpowiedź [default: null]"
+                    "q_hint": "Podpowiedź [default: null]",
+                    "q_answer_case_sensitive": true,
                 }
             ]
         },
@@ -83,7 +97,8 @@ If you want the answers to be encrypted, set `encrypted` key to `true`:
                     "q_id": "ID pytania",
                     "q_desc": "Opis pytania [default: null]",
                     "q_answer": "Odpowiedź [default: null]",
-                    "q_hint": "Podpowiedź [default: null]"
+                    "q_hint": "Podpowiedź [default: null]",
+                    "q_answer_case_sensitive": false,
                 }
             ]
         }

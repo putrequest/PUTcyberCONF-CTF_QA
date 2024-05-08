@@ -84,6 +84,7 @@ def process_question_config(question: dict):
     - `q_desc` - optional key, None or str
     - `q_answer` - optional key, None or str
     - `q_hint` - optional key, None or str
+    - `q_answer_case_sensitive` - optional key, False or True
     '''
     if 'q_desc' not in question:
         question['q_desc'] = None
