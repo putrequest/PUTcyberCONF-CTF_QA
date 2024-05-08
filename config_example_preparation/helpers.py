@@ -17,8 +17,9 @@ class Question():
     def set_desc(self, question_desc: str):
         self.question_desc = question_desc
         
-    def set_answer(self, question_answer: str): 
+    def set_answer(self, question_answer: str, case_sensitive: bool = False): 
         self.question_answer = self.__encode_answer(question_answer)
+        self.case_sensitive = case_sensitive
         
     def set_hint(self, question_hint: str):
         self.question_hint = question_hint

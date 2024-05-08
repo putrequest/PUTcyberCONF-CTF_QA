@@ -16,9 +16,9 @@ task_1_q_1_hint = "First question hint"
 task_1_q_1 = Question(task_1_q_1_desc, task_1_q_1_answer, task_1_q_1_hint)
 
 task_1_q_2_desc = "Second question description"
-task_1_q_2_answer = "Second question answer"
+task_1_q_2_answer = "Second question answer being case sensitive"
 
-task_1_q_2 = Question(task_1_q_2_desc, task_1_q_2_answer, None)
+task_1_q_2 = Question(task_1_q_2_desc, task_1_q_2_answer, None, case_sensitive=True)
 
 task_1.add_question(task_1_q_1)
 task_1.add_question(task_1_q_2)
