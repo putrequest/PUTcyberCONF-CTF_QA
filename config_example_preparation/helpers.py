@@ -1,10 +1,11 @@
 import json, base64, codecs
 
 class Question():
-    def __init__(self, question_desc: str = None, question_answer: str = None, question_hint: str = None):
+    def __init__(self, question_desc: str = None, question_answer: str = None, question_hint: str = None, case_sensitive: bool = False):
         self.question_desc = question_desc
         self.question_answer = self.__encode_answer(question_answer)
         self.question_hint = question_hint
+        self.case_sensitive = case_sensitive
     
     def __encode_answer(self, answer):
         if answer == None:
@@ -35,7 +36,8 @@ class Task():
             "q_id": self.question_enum,
             "q_desc": question.question_desc,
             "q_answer": question.question_answer,
-            "q_hint": question.question_hint
+            "q_hint": question.question_hint,
+            "q_answer_case_sensitive": question.case_sensitive,
         })
         self.question_enum += 1
 

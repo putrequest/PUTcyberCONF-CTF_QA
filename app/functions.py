@@ -91,6 +91,8 @@ def process_question_config(question: dict):
         question['q_answer'] = None
     if 'q_hint' not in question:
         question['q_hint'] = None
+    if 'q_answer_case_sensitive' not in question:
+        question['q_answer_case_sensitive'] = False
     return question
 
 def read_file(custom_config: str = None):   
@@ -145,11 +147,12 @@ def check_step(question_total_label: CounterQLabel, submit_button: CustomPushBut
     # all answers are correct
     make_message("Gratulacje!", "Wszystkie odpowiedzi są poprawne!", "Zakończono zadanie.", widget.QMessageBox.Icon.Information)
 
-def check_answer(question_total_label: CounterQLabel, submit_button: CustomPushButton, answer_img: QLabel, answer_box: QLineEdit = None, answer: str = None):        
-    current_text = answer_box.text()
+def check_answer(question_total_label: CounterQLabel, submit_button: CustomPushButton, answer_img: QLabel, answer_box: QLineEdit = None, question: dict = None):        
+    current_answer = answer_box.text()
     
-    # TOFIX: case insensitive comparison
-    if current_text == answer or current_text.upper() == answer.upper():
+    orig_answer = question['q_answer']
+    
+    if question['q_answer_case_sensitive'] and current_answer == orig_answer or not question['q_answer_case_sensitive'] and current_answer.upper() == orig_answer.upper():
         answer_box.setEnabled(False)
         submit_button.setEnabled(False)
         submit_button.setText("Dobrze!")
@@ -300,14 +303,14 @@ def set_question(question: dict, font: QtGui.QFont, question_total_label: Counte
         
     question_submit = CustomPushButton()
     question_submit.setText("Sprawdź")
-    question_submit.clicked.connect(functools.partial(check_answer, question_total_label, question_submit, question_answer_indicator, question_answer, question['q_answer']))
+    question_submit.clicked.connect(functools.partial(check_answer, question_total_label, question_submit, question_answer_indicator, question_answer, question))
     question_submit.setFont(font)
     answer_button_list.append(question_submit)
     inner_layout_submit = QVBoxLayout()
     inner_layout_submit.addWidget(question_submit)
     
     # enable question approval on enter
-    question_answer.returnPressed.connect(functools.partial(check_answer, question_total_label, question_submit, question_answer_indicator, question_answer, question['q_answer']))
+    question_answer.returnPressed.connect(functools.partial(check_answer, question_total_label, question_submit, question_answer_indicator, question_answer, question))
     
     if question['q_hint'] != None:
         question_hint = QPushButton()
