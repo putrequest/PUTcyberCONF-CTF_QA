@@ -18,6 +18,7 @@ Current dependencies can be found in `requirements.txt` file.
 ## Installation
 
 The program utilizes Python 3.12.1 and PyQT6. The required dependencies can be found in `requirements.txt` file.
+
 ⚠️**As on 09.05.2024:** The program itself can run on Python 3.10+ (`match case` clause use)
 
 1. Program can run by installing dependencies and executing `main.py` via Python.
@@ -36,6 +37,7 @@ The program utilizes Python 3.12.1 and PyQT6. The required dependencies can be f
    3. Versions before `v1.0` were created with switch `-D` instead of `-F` and are available only for **Windows**.
 
 ~~Program reads the data for tasks from configuration file called `config.json`. The file itself should be stored within programs root directory.~~
+
 Running the program via python with configuration file can be proceeded in the same way as presented in 2. point of [Running standalone app (release)](#running-standalone-app-release)
 
 ## Layout editing
