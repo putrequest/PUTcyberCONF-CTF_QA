@@ -5,9 +5,20 @@ Repo containing source files for the QA application for Forensic workshops and o
 
 Current dependencies can be found in `requirements.txt` file.
 
+## Running standalone app (release)
+
+1. Unpack the application from .zip archive
+2. Create configuration file (in JSON format) with the contents and follow either way:
+   1. Name it `config.json` and paste it into the home folder of the app
+   2. Name it as you wish and run the application with command-line options:
+      1. `-c <path_to_config>`
+      2. `--config <path_to_config>`
+      3. `--config=<path_to_config>`
+
 ## Installation
 
 The program utilizes Python 3.12.1 and PyQT6. The required dependencies can be found in `requirements.txt` file.
+⚠️**As on 09.05.2024:** The program itself can run on Python 3.10+ (`match case` clause use)
 
 1. Program can run by installing dependencies and executing `main.py` via Python.
 2. Program executable for Windows was generated and can be found under *[Releases](https://github.com/putrequest/PUTcyberCONF-CTF_QA/releases)*.
@@ -24,7 +35,8 @@ The program utilizes Python 3.12.1 and PyQT6. The required dependencies can be f
       1. Example specification can be found in folder `config_standalone` and will be used in later releases due to the increasing number of dependencies.
    3. Versions before `v1.0` were created with switch `-D` instead of `-F` and are available only for **Windows**.
 
-Program reads the data for tasks from configuration file called `config.json`. The file itself should be stored within programs root directory.
+~~Program reads the data for tasks from configuration file called `config.json`. The file itself should be stored within programs root directory.~~
+Running the program via python with configuration file can be proceeded in the same way as presented in 2. point of [Running standalone app (release)](#running-standalone-app-release)
 
 ## Layout editing
 
